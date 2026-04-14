@@ -32,13 +32,30 @@ jobs:
             ./wp-content/ \
             ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
 
-      - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
+      # - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
+      #   run: |
+      #     ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
+      #       cd /www/mytestsitem_146/public
+      #       wp plugin activate --all --quiet
+      #       wp cache flush
+      #       wp acf sync # Optional: Force ACF to look for new JSON files
+      #     EOF
+      - name: Post-Deployment Commands (Safety Mode)
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
             cd /www/mytestsitem_146/public
+            
+            # 1. Flush cache while IGNORING the broken plugins
+            wp cache flush --skip-plugins --skip-themes
+            
+            # 2. Deactivate the specific plugin causing the crash
+            wp plugin deactivate better-wp-security --skip-plugins --skip-themes
+            
+            # 3. Now activate everything else
             wp plugin activate --all --quiet
+            
+            # 4. Final cache flush now that things are stable
             wp cache flush
-            wp acf sync # Optional: Force ACF to look for new JSON files
           EOF
 
   deploy-live:
@@ -66,10 +83,27 @@ jobs:
             ./wp-content/ \
             ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
 
-      - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
+      # - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
+      #   run: |
+      #     ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
+      #       cd /www/mytestsitem_146/public
+      #       wp plugin activate --all --quiet
+      #       wp cache flush
+      #     EOF
+      - name: Post-Deployment Commands (Safety Mode)
         run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
             cd /www/mytestsitem_146/public
+            
+            # 1. Flush cache while IGNORING the broken plugins
+            wp cache flush --skip-plugins --skip-themes
+            
+            # 2. Deactivate the specific plugin causing the crash
+            wp plugin deactivate better-wp-security --skip-plugins --skip-themes
+            
+            # 3. Now activate everything else
             wp plugin activate --all --quiet
+            
+            # 4. Final cache flush now that things are stable
             wp cache flush
           EOF
