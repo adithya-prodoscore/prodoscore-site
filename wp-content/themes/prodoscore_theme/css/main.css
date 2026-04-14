@@ -1,0 +1,630 @@
+/* --- NEW MODERN NAVBAR STYLES --- */
+
+.navbar {
+  transition: all 0.3s ease;
+  background-color: #3a86f7 !important;
+}
+
+.navbar-nav li {
+  margin-right: 1rem;
+  padding: 0 5px;
+}
+
+.navbar .navbar-nav li a {
+  color: #ffffff !important;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: opacity 0.2s ease;
+}
+
+/* DROPDOWN LOGIC */
+.navbar-nav .menu-item-has-children {
+  position: relative;
+}
+
+.navbar-nav .sub-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #3a86f7;
+  min-width: 200px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  z-index: 1050;
+  padding-left: 0;
+  margin: 0;
+}
+
+.navbar-nav .menu-item-has-children:hover > .sub-menu {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+.navbar-nav .sub-menu li {
+  width: 100%;
+  padding: 0; /* Remove padding from the LI so the link takes up the whole space */
+  display: block;
+}
+
+.navbar-nav .sub-menu li a {
+  display: block;
+  padding: 10px 20px !important; /* Move the padding here for better hover effect */
+  width: 100%;
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.navbar-nav .sub-menu li:hover {
+  background-color: #3373d3 !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contact Button Styling */
+.btn-danger {
+  background-color: #ff5e5e; /* Matching the red/coral tone */
+  border: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+/* Update your pink button to only affect the header one */
+.navbar .btn-danger {
+  background-color: #ff5e5e;
+  border: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  padding: 8px 20px;
+}
+
+/* ------------------------------- Hero Section */
+
+.hero-section {
+  min-height: 80vh; /* Make it taller like the screenshot */
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  /* Move the background here so it's easy to change */
+  background: linear-gradient(135deg, #f8fafd 0%, #ffffff 100%);
+}
+
+.hero-section h1 {
+  font-size: 3.5rem; /* Large display font */
+  line-height: 1.2;
+  color: #212529;
+}
+
+/* Rounded, pulsing play button effect */
+.play-btn {
+  width: 80px;
+  height: 80px;
+  background: #dc3545 !important; /* Force red */
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(220, 53, 69, 0.3);
+}
+
+.play-btn:hover {
+  transform: scale(
+    1.1
+  ); /* Removed the translate, Bootstrap handles centering via 'translate-middle' class in HTML */
+}
+
+/* Ensure the triangle icon is white and visible */
+.play-btn span {
+  color: white;
+  font-size: 1.5rem;
+  margin-left: 5px; /* Visual centering for triangles */
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  line-height: 1.2;
+  color: #212529;
+  font-weight: 700; /* Ensure it stays bold */
+}
+
+/* Ensure Hero buttons stay large */
+.hero-section .btn-lg {
+  padding: 12px 30px !important;
+  font-size: 1.1rem !important; /* Forces the Hero button to stay big */
+  font-weight: 600;
+}
+
+/* --- FOOTER COLUMN LOGIC --- */
+
+.bg-dark-blue {
+  background-color: #26334d; /* Match the Prodoscore Blue */
+}
+
+/* 1. Make the main menu list a Flex container */
+ul.footer-columns-wrapper {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping on mobile */
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 2. Style the top-level parent LI as a Column */
+ul.footer-columns-wrapper > li {
+  flex: 1; /* Makes columns equal width */
+  min-width: 180px; /* Prevents columns from getting too thin */
+  margin-bottom: 30px;
+}
+
+/* 3. Style the Parent Link (The Heading) */
+ul.footer-columns-wrapper > li > a {
+  display: block;
+  color: #ffffff !important;
+  font-weight: 700;
+  text-transform: none;
+  margin-bottom: 20px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  pointer-events: none; /* In footer, the 'Solutions' heading shouldn't be a link */
+}
+
+/* 4. Force the Sub-Menu to ALWAYS show in footer */
+ul.footer-columns-wrapper .sub-menu {
+  display: block !important; /* Overrides the 'display: none' from the Header CSS */
+  position: static !important; /* Removes the floating/absolute behavior */
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  list-style: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* 5. Style the Sub-Menu links */
+ul.footer-columns-wrapper .sub-menu li {
+  margin-bottom: 10px;
+}
+
+ul.footer-columns-wrapper .sub-menu li a {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 0.9rem !important;
+  padding: 0 !important;
+  text-decoration: none;
+}
+
+ul.footer-columns-wrapper .sub-menu li a:hover {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+.footer-socials a i {
+  font-size: 1.2rem;
+  transition: opacity 0.2s;
+}
+
+.footer-socials a:hover i {
+  opacity: 0.7;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Challenges Section Styles */
+
+.challenges-section .card {
+  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent !important;
+}
+
+.challenges-section .card:hover {
+  transform: translateY(-8px);
+  background-color: #ffffff !important;
+  border-color: #e9ecef !important;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.08) !important;
+}
+
+.rounded-4 {
+  border-radius: 1.25rem !important;
+}
+
+.challenges-section .btn-primary {
+  background-color: #3a86f7;
+  border: none;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.challenges-section .btn-primary:hover {
+  transform: translateY(-2px);
+  background-color: #2a75e6;
+}
+
+/* Side By Side Section Styles */
+
+/* target only the image within this section */
+.zigzag-features .feature-img {
+  max-width: 85% !important; /* Forces the image to be smaller within its new 5/12 container */
+  margin: 0 auto; /* Centers the shrunken image */
+  display: block;
+}
+
+/* Ensure the text has proper spacing on reversed rows */
+.zigzag-features .text-column {
+  padding-left: 3rem;
+}
+
+.zigzag-features .flex-md-row-reverse .text-column {
+  padding-left: 0 !important;
+  padding-right: 3rem !important; /* Mirror padding on reversed row */
+}
+
+/* Optional: Make the h2 slightly smaller to match the new grid balance */
+.zigzag-features h2 {
+  font-size: 2.3rem !important; /* Slightly shrunk from 2.5rem */
+}
+
+/* 1. Target the logos specifically */
+.metaslider .slides img {
+  max-height: 60px !important; /* This makes them small */
+  width: auto !important; /* This prevents stretching */
+  display: block !important;
+  margin: 0 auto !important; /* Centers them in their slot */
+  filter: grayscale(100%);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+/* 2. Remove the grayscale on hover */
+.metaslider .slides img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* 3. Remove any weird borders/shadows from MetaSlider */
+.metaslider .flexslider {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* 4. Fix for the container height */
+.metaslider {
+  max-width: 90% !important;
+  margin: 0 auto !important;
+}
+
+/* About Us Page */
+
+.about-hero-split {
+  background-color: #001e42; /* The Prodoscore Dark Blue */
+  position: relative;
+}
+
+/* This creates the "box" effect for the white area */
+.bg-white.rounded-top-5 {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.about-hero-split h1 {
+  letter-spacing: -1px;
+}
+
+.about-hero-split .lead {
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+/* Style for the main description paragraphs */
+.about-hero-split .text-secondary {
+  color: #556070 !important;
+  line-height: 1.8;
+}
+
+/* Vision & Mission Section */
+
+.mv-card {
+  transition: transform 0.3s ease;
+  border-radius: 0 !important; /* Keep it sharp like the image */
+}
+
+.mv-card:hover {
+  transform: translateY(-5px);
+}
+
+.mv-card p {
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+/* Specific Border Colors to match the screenshot */
+.border-primary {
+  border-left-color: #3182ce !important; /* Mission Blue */
+}
+
+.border-info {
+  border-left-color: #4fd1c5 !important; /* Vision Teal */
+}
+
+/* Bold blue highlights for the keywords */
+.mission-vision b,
+.mission-vision strong {
+  color: #3182ce;
+  font-weight: 700;
+}
+
+/* Prodoscore values section */
+
+.core-values .accent-bar {
+  width: 30px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.accent-1 {
+  background-color: #3182ce;
+} /* Blue */
+.accent-2 {
+  background-color: #4fd1c5;
+} /* Teal */
+.accent-3 {
+  background-color: #ed8936;
+} /* Orange */
+
+.core-values h2 {
+  color: #1a202c;
+  font-size: 2rem;
+}
+
+.core-values h4 {
+  color: #2d3748;
+  font-size: 1.25rem;
+}
+
+.core-values p {
+  font-size: 0.95rem;
+  color: #718096 !important;
+}
+
+/* --- Team Section Styles --- */
+
+.team-section {
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/* Fixed-size Circle Wrapper */
+.member-img-wrapper {
+  width: 170px !important; /* Change this value to adjust circle size */
+  height: 170px !important; /* Must be identical to width */
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  border: 6px solid #f8fafc;
+  background-color: #f8fafc;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: block !important;
+  position: relative;
+}
+
+/* Force Image to fit the circle */
+.member-img-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Crops image to fill the circle without stretching */
+  object-position: center;
+  display: block;
+}
+
+/* Hover Animation */
+.team-card:hover .member-img-wrapper {
+  transform: translateY(-8px);
+  border-color: #ebf4ff;
+  box-shadow: 0 15px 30px -5px rgba(49, 130, 206, 0.15) !important;
+}
+
+/* LinkedIn Icon Styling */
+.linkedin-icon {
+  display: inline-block;
+  transition: all 0.2s ease;
+  filter: grayscale(100%);
+  opacity: 0.7;
+}
+
+.linkedin-icon:hover {
+  transform: scale(1.15);
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* Subtle Wavy/Cube Background Pattern */
+.team-bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+  opacity: 0.04;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 768px) {
+  .member-img-wrapper {
+    width: 150px !important;
+    height: 150px !important;
+  }
+}
+
+/* Posts Page Styles */
+
+.blog-index h6 {
+  color: #555;
+  font-size: 0.8rem;
+}
+
+.featured-img-wrapper {
+  transition: transform 0.3s ease;
+}
+
+.featured-post:hover .featured-img-wrapper {
+  transform: translateY(-5px);
+}
+
+/* Card Grid Styling */
+.blog-card {
+  transition: all 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: scale(1.02);
+}
+
+.card-img-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-card h5 {
+  font-size: 1rem;
+  line-height: 1.4;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Pagination Styling */
+.pagination-wrapper .page-numbers {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #007bff;
+  border-radius: 4px;
+}
+
+.pagination-wrapper .current {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* --- Single Post Styles --- */
+
+.single-post-wrapper h1 {
+  color: #1a2233;
+  line-height: 1.2;
+}
+
+/* Content Spacing */
+.post-content p {
+  margin-bottom: 1.8rem;
+  color: #4a5568;
+}
+
+/* Blockquotes */
+.post-content blockquote {
+  border-left: 5px solid #3182ce;
+  padding: 1rem 2rem;
+  margin: 2rem 0;
+  background-color: #f7fafc;
+  font-style: italic;
+  color: #2d3748;
+}
+
+/* Images inside content */
+.post-content img {
+  border-radius: 12px;
+  margin: 2rem 0;
+  height: auto;
+  max-width: 100%;
+}
+
+/* Related Posts Card */
+.related-posts .card {
+  transition: transform 0.3s ease;
+}
+
+.related-posts .card:hover {
+  transform: translateY(-5px);
+}
+
+.related-posts img {
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Constrain the Featured Image size */
+.post-thumbnail-sm {
+  width: 100%;
+  max-height: 450px; /* Limits the vertical space it takes */
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.post-thumbnail-sm img {
+  width: 100%;
+  height: 450px; /* Matches the container */
+  object-fit: cover; /* Crops the image nicely instead of squishing it */
+  object-position: center;
+}
+
+/* Meta Section Styling */
+.post-meta-wrapper {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.author-avatar-sm img {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Modern Category Pills */
+.category-pill {
+  display: inline-block;
+  background-color: #ebf4ff;
+  color: #3182ce;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.category-pill:hover {
+  background-color: #3182ce;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Post Content Tweak */
+.post-content {
+  color: #2d3748;
+  line-height: 1.8;
+}

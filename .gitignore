@@ -1,0 +1,50 @@
+# --- WORDPRESS CORE ---
+# We don't track core because Kinsta manages updates.
+wp-admin/
+wp-includes/
+wp-*.php
+xmlrpc.php
+index.php
+license.txt
+readme.html
+
+# --- CONFIG & SECRETS ---
+# Never track passwords.
+wp-config.php
+wp-config-sample.php
+.env
+
+# --- THE PLUGINS (CRITICAL CHANGE) ---
+# We REMOVE the ignore for plugins so they sync via Git.
+# However, we ignore specific heavy/junk plugin data.
+wp-content/plugins/akismet/
+wp-content/plugins/hello.php
+
+# --- UPLOADS & STATE (THE "DOWN" FLOW) ---
+# We never push these UP; we only pull them DOWN via DevKinsta.
+wp-content/uploads/
+wp-content/blogs.dir/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+
+# --- CACHE & PERFORMANCE ---
+# Don't track generated files from WP Super Cache or Autoptimize.
+wp-content/cache/
+wp-content/autoptimize/
+
+# --- THEMES ---
+# We track our custom theme, but we ignore the default WP themes.
+wp-content/themes/twentytwenty*/
+wp-content/themes/twentytwentyone/
+wp-content/themes/twentytwentytwo/
+wp-content/themes/twentytwentythree/
+
+# --- OS & TOOLS ---
+.DS_Store
+Thumbs.db
+node_modules/
+.parcel-cache
+dist/
+npm-debug.log*
