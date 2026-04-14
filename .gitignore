@@ -4,9 +4,19 @@ wp-admin/
 wp-includes/
 wp-*.php
 xmlrpc.php
-index.php
 license.txt
 readme.html
+
+# --- WORDPRESS CORE ---
+# Ignore the index.php in the root folder
+/index.php
+
+# Ignore all other index.php files everywhere else by default
+**/index.php
+
+# --- THEMES ---
+# Now, EXCEPTION: Allow the index.php inside your specific theme
+!wp-content/themes/prodoscore_theme/index.php
 
 # --- CONFIG & SECRETS ---
 # Never track passwords.
