@@ -1,0 +1,75 @@
+name: Deploy to Kinsta
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  deploy-staging:
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KINSTA_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Staging
+        run: |
+          rsync -avzr --delete \
+            --exclude='uploads/' \
+            --exclude='cache/' \
+            --exclude='autoptimize/' \
+            --exclude='.git' \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} -o StrictHostKeyChecking=no" \
+            ./wp-content/ \
+            ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
+
+      - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
+            cd /www/mytestsitem_146/public
+            wp plugin activate --all --quiet
+            wp cache flush
+            wp acf sync # Optional: Force ACF to look for new JSON files
+          EOF
+
+  deploy-live:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KINSTA_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.KINSTA_PORT }} ${{ secrets.KINSTA_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Live
+        run: |
+          rsync -avzr --delete \
+            --exclude='uploads/' \
+            --exclude='cache/' \
+            --exclude='autoptimize/' \
+            --exclude='.git' \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_PORT }} -o StrictHostKeyChecking=no" \
+            ./wp-content/ \
+            ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
+
+      - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
+            cd /www/mytestsitem_146/public
+            wp plugin activate --all --quiet
+            wp cache flush
+          EOF
