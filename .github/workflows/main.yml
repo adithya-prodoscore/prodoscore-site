@@ -39,7 +39,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.KINSTA_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_STAGING_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Staging
         run: |
@@ -51,7 +51,7 @@ jobs:
             --exclude='.git' \
             -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} -o StrictHostKeyChecking=no" \
             ./wp-content/ \
-            ${{ secrets.KINSTA_STAGING_USER }}@${{ secrets.KINSTA_STAGING_HOST }}:/www/mytestsitem_146/public/wp-content/
+            ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
 
       - name: Post-Deployment
         run: |
@@ -82,7 +82,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.KINSTA_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.KINSTA_LIVE_PORT }} ${{ secrets.KINSTA_LIVE_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.KINSTA_PORT }} ${{ secrets.KINSTA_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Live
         run: |
@@ -92,16 +92,16 @@ jobs:
             --exclude='mu-plugins/' \
             --exclude='autoptimize/' \
             --exclude='.git' \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_LIVE_PORT }} -o StrictHostKeyChecking=no" \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_PORT }} -o StrictHostKeyChecking=no" \
             ./wp-content/ \
-            ${{ secrets.KINSTA_LIVE_USER }}@${{ secrets.KINSTA_LIVE_HOST }}:/www/mytestsitem_146/public/wp-content/
+            ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
 
       - name: Post-Deployment
         run: |
           ssh -i ~/.ssh/deploy_key \
-            -p ${{ secrets.KINSTA_LIVE_PORT }} \
+            -p ${{ secrets.KINSTA_PORT }} \
             -o StrictHostKeyChecking=no \
-            ${{ secrets.KINSTA_LIVE_USER }}@${{ secrets.KINSTA_LIVE_HOST }} << 'EOF'
+            ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
               cd /www/mytestsitem_146/public
 
               # Clear all caches so the new theme/plugin code is served immediately
