@@ -38,12 +38,6 @@ wp-content/plugins/*
 
 # 3. NOW the exceptions will work
 !wp-content/plugins/advanced-custom-fields/
-!wp-content/plugins/autoptimize/
-!wp-content/plugins/ml-slider/
-!wp-content/plugins/wp-super-cache/
-!wp-content/plugins/wps-hide-login/
-!wp-content/plugins/classic-editor/
-
 
 
 # --- MU-PLUGINS ---
