@@ -257,28 +257,38 @@ ul.footer-columns-wrapper .sub-menu li a:hover {
   background-color: #2a75e6;
 }
 
-/* Side By Side Section Styles */
+/* Side By Side Section Styles - Tightened */
 
-/* target only the image within this section */
 .zigzag-features .feature-img {
-  max-width: 85% !important; /* Forces the image to be smaller within its new 5/12 container */
-  margin: 0 auto; /* Centers the shrunken image */
+  max-width: 70% !important; /* Slightly larger to fill the space better */
+  margin: 0 auto;
   display: block;
 }
 
-/* Ensure the text has proper spacing on reversed rows */
+/* Reduced padding between image and text */
 .zigzag-features .text-column {
-  padding-left: 3rem;
+  padding-left: 1.5rem !important;
 }
 
+/* Mirror the tight padding on reversed rows */
 .zigzag-features .flex-md-row-reverse .text-column {
   padding-left: 0 !important;
-  padding-right: 3rem !important; /* Mirror padding on reversed row */
+  padding-right: 1.5rem !important;
 }
 
-/* Optional: Make the h2 slightly smaller to match the new grid balance */
 .zigzag-features h2 {
-  font-size: 2.3rem !important; /* Slightly shrunk from 2.5rem */
+  font-size: 2.1rem !important; /* Shrunk slightly more to keep it compact */
+  letter-spacing: -0.02em; /* Tighter heading looks cleaner on compact layouts */
+}
+
+/* Remove bottom margin on the very last row */
+.zigzag-features .row:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Ensure images don't create "ghost" whitespace with large containers */
+.zigzag-features .feature-image-wrapper {
+  padding: 0 !important; /* Removes the p-lg-4 you had before */
 }
 
 /* 1. Target the logos specifically */

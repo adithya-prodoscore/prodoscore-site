@@ -111,8 +111,7 @@
 
 
 <section class="zigzag-features py-5">
-    <div class="container py-5">
-        <?php for ($i = 1; $i <= 3; $i++) : 
+    <div class="container"> <?php for ($i = 1; $i <= 3; $i++) : 
             $title = get_field('feat_' . $i . '_title');
             $desc  = get_field('feat_' . $i . '_description');
             $img   = get_field('feat_' . $i . '_image');
@@ -120,28 +119,29 @@
             $btn_u = get_field('feat_' . $i . '_button_url');
             
             $reverse_class = ($i % 2 == 0) ? 'flex-md-row-reverse' : '';
+            // Only add margin-bottom if it's NOT the last item
+            $margin_class = ($i < 3) ? '' : 'mb-0'; 
         ?>
-            <div class="row align-items-center mb-5 pb-lg-5 <?php echo $reverse_class; ?>">
+            <div class="row align-items-center <?php echo $reverse_class; ?> <?php echo $margin_class; ?>">
                 
-                <div class="col-md-5 mb-4 mb-md-0">
-                    <div class="feature-image-wrapper p-lg-4 text-center">
+                <div class="col-md-5">
+                    <div class="feature-image-wrapper text-center">
                         <?php if($img): ?>
                             <img src="<?php echo $img; ?>" alt="<?php echo $title; ?>" class="img-fluid feature-img">
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <div class="col-md-7 ps-md-5 text-column">
-                    <div class="feature-text-content p-lg-4">
-                        <h2 class="fw-bold text-dark mb-4" style="font-size: 2.3rem; line-height: 1.2;">
+                <div class="col-md-7 ps-md-4 text-column"> <div class="feature-text-content">
+                        <h2 class="fw-bold text-dark mb-3">
                             <?php echo $title; ?>
                         </h2>
-                        <div class="text-muted fs-5 mb-4" style="line-height: 1.7;">
+                        <div class="text-muted fs-5 mb-3" style="line-height: 1.6;">
                             <?php echo $desc; ?>
                         </div>
 
                         <?php if($btn_t): ?>
-                            <div class="mt-4">
+                            <div class="mt-3">
                                 <a href="<?php echo $btn_u; ?>" class="btn btn-primary btn-lg px-4 py-2 fw-bold">
                                     <?php echo $btn_t; ?>
                                 </a>
