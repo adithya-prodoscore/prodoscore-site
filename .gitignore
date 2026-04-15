@@ -30,14 +30,20 @@ wp-config-sample.php
 
 
 # --- PLUGINS ---
-# Plugins are installed and managed directly on Kinsta live/staging.
-# We do NOT track plugins in Git. See deploy.yml for reasoning.
-wp-content/plugins/
+# 1. Un-ignore the plugins folder itself (don't add a trailing slash here)
+!wp-content/plugins
 
-# If your theme has a hard PHP dependency on a specific plugin,
-# unignore it here so it travels with your code:
-!wp-content/plugins/advanced-custom-fields
-!wp-content/plugins/autoptimize
+# 2. Ignore everything INSIDE the plugins folder by default
+wp-content/plugins/*
+
+# 3. NOW the exceptions will work
+!wp-content/plugins/advanced-custom-fields/
+!wp-content/plugins/autoptimize/
+!wp-content/plugins/ml-slider/
+!wp-content/plugins/wp-super-cache/
+!wp-content/plugins/wps-hide-login/
+!wp-content/plugins/classic-editor/
+
 
 
 # --- MU-PLUGINS ---
