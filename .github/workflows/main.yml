@@ -6,22 +6,6 @@ on:
       - main
       - staging
 
-# ─────────────────────────────────────────────
-# SECRETS YOU NEED IN GITHUB:
-#
-# KINSTA_SSH_KEY            → your private SSH key (same key works for both envs)
-#
-# Staging environment:
-#   KINSTA_STAGING_HOST     → SSH host for staging
-#   KINSTA_STAGING_PORT     → SSH port for staging
-#   KINSTA_STAGING_USER     → SSH user for staging
-#
-# Live environment:
-#   KINSTA_LIVE_HOST        → SSH host for live
-#   KINSTA_LIVE_PORT        → SSH port for live
-#   KINSTA_LIVE_USER        → SSH user for live
-# ─────────────────────────────────────────────
-
 jobs:
   # ─────────────────────────────────────────────
   # STAGING — triggers on push to `staging` branch

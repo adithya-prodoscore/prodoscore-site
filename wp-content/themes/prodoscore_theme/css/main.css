@@ -638,3 +638,92 @@ ul.footer-columns-wrapper .sub-menu li a:hover {
   color: #2d3748;
   line-height: 1.8;
 }
+
+/* Slide show  */
+
+/* Container Reset */
+.ms-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Force the cards to allow wide text */
+.activity-slider-section .metaslider .slides li {
+  background: #ffffff !important;
+  border-radius: 20px !important;
+  padding: 40px 25px !important;
+  margin-right: 20px !important; /* Space between cards */
+  color: #333 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  overflow: hidden;
+}
+
+/* Fix the squashed text (The "One word per line" bug) */
+.activity-slider-section .metaslider .caption,
+.activity-slider-section .metaslider .caption-wrap {
+  position: static !important;
+  background: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: #2d3748 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Style the actual text inside the caption */
+.activity-slider-section .metaslider .caption {
+  font-size: 1.1rem !important;
+  line-height: 1.5 !important;
+  text-align: center !important;
+  white-space: normal !important; /* Forces text to wrap normally */
+  word-break: keep-all !important;
+}
+
+/* Center the icons and give them space */
+.activity-slider-section .metaslider img {
+  width: 60px !important;
+  height: 60px !important;
+  margin-bottom: 20px !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background: #f0f4ff;
+  padding: 12px;
+  border-radius: 50%;
+}
+
+/* 1. Kill the internal border and box styling */
+.activity-slider-section .metaslider .caption-wrap,
+.activity-slider-section .metaslider .caption {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 2. Ensure the text container is wide enough so sentences don't break early */
+.activity-slider-section .metaslider .caption {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* 3. Center the icon properly since the border is gone */
+.activity-slider-section .metaslider img {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 4. Hide that tiny Play button on the bottom left (unless you want it) */
+.activity-slider-section .metaslider .play-pause {
+  display: none !important;
+}

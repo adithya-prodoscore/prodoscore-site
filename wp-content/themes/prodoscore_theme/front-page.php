@@ -200,6 +200,25 @@
     </div>
 </section>
 
+<!-- Slider Section - (Implement Later) -->
+
+<section class="activity-slider-section py-5 text-white text-center" style="background-color: #2d3748;">
+    <div class="container">
+        <h2 class="fw-bold mb-3">See All Work Activity in One Place</h2>
+        <p class="mb-4 mx-auto" style="max-width: 700px; opacity: 0.9;">
+            Your team works across dozens of business applications. Prodoscore centralizes activity into a unified view so you finally see the complete picture of output.
+        </p>
+        <p class="text-uppercase fw-bold mb-5" style="letter-spacing: 2px; font-size: 0.8rem; opacity: 0.7;">Key Capabilities:</p>
+        
+        <div class="ms-wrapper">
+            <?php echo do_shortcode('[metaslider id="290"]'); ?>
+        </div>
+
+        <p class="mt-5 mx-auto italic" style="max-width: 600px; font-style: italic; opacity: 0.8;">
+            When all activity is visible, performance conversations become fair, objective, and grounded in reality.
+        </p>
+    </div>
+</section>
 
 <?php endwhile; endif; ?>
 
