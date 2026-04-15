@@ -6,138 +6,105 @@ on:
       - main
       - staging
 
+# ─────────────────────────────────────────────
+# SECRETS YOU NEED IN GITHUB:
+#
+# KINSTA_SSH_KEY            → your private SSH key (same key works for both envs)
+#
+# Staging environment:
+#   KINSTA_STAGING_HOST     → SSH host for staging
+#   KINSTA_STAGING_PORT     → SSH port for staging
+#   KINSTA_STAGING_USER     → SSH user for staging
+#
+# Live environment:
+#   KINSTA_LIVE_HOST        → SSH host for live
+#   KINSTA_LIVE_PORT        → SSH port for live
+#   KINSTA_LIVE_USER        → SSH user for live
+# ─────────────────────────────────────────────
+
 jobs:
+  # ─────────────────────────────────────────────
+  # STAGING — triggers on push to `staging` branch
+  # ─────────────────────────────────────────────
   deploy-staging:
     if: github.ref == 'refs/heads/staging'
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.KINSTA_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_STAGING_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Staging
         run: |
-          rsync -avzr --delete \
+          rsync -avzr \
             --exclude='uploads/' \
             --exclude='cache/' \
+            --exclude='mu-plugins/' \
             --exclude='autoptimize/' \
             --exclude='.git' \
             -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} -o StrictHostKeyChecking=no" \
             ./wp-content/ \
-            ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
+            ${{ secrets.KINSTA_STAGING_USER }}@${{ secrets.KINSTA_STAGING_HOST }}:/www/mytestsitem_146/public/wp-content/
 
-      # - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
-      #   run: |
-      #     ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
-      #       cd /www/mytestsitem_146/public
-      #       wp plugin activate --all --quiet
-      #       wp cache flush
-      #       wp acf sync # Optional: Force ACF to look for new JSON files
-      #     EOF
-      # - name: Post-Deployment Commands (Safety Mode)
-      #   run: |
-      #     ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
-      #       cd /www/mytestsitem_146/public
-
-      #       # 1. Flush cache while IGNORING the broken plugins
-      #       wp cache flush --skip-plugins --skip-themes
-
-      #       # 2. Deactivate the specific plugin causing the crash
-      #       wp plugin deactivate better-wp-security --skip-plugins --skip-themes
-
-      #       # 3. Now activate everything else
-      #       wp plugin activate --all --quiet
-
-      #       # 4. Final cache flush now that things are stable
-      #       wp cache flush
-      #     EOF
-      - name: Post-Deployment Commands (Safety Mode)
+      - name: Post-Deployment
         run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} -o StrictHostKeyChecking=no ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
-            cd /www/mytestsitem_146/public
-            
-            # 1. Flush cache while IGNORING the broken plugins to bypass the Fatal Error
-            wp cache flush --skip-plugins --skip-themes
-            
-            # 2. Deactivate the specific plugin causing the crash
-            wp plugin deactivate better-wp-security --skip-plugins --skip-themes
-            
-            # 3. Now activate everything else
-            wp plugin activate --all --quiet
-            
-            # 4. Final cache flush now that things are stable
-            wp cache flush
+          ssh -i ~/.ssh/deploy_key \
+            -p ${{ secrets.KINSTA_STAGING_PORT }} \
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.KINSTA_STAGING_USER }}@${{ secrets.KINSTA_STAGING_HOST }} << 'EOF'
+              cd /www/mytestsitem_146/public
+
+              # Clear all caches so the new theme/plugin code is served immediately
+              wp cache flush
+
           EOF
 
+  # ─────────────────────────────────────────────
+  # LIVE — triggers on push to `main` branch
+  # ─────────────────────────────────────────────
   deploy-live:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.KINSTA_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.KINSTA_PORT }} ${{ secrets.KINSTA_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.KINSTA_LIVE_PORT }} ${{ secrets.KINSTA_LIVE_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Live
         run: |
-          rsync -avzr --delete \
+          rsync -avzr \
             --exclude='uploads/' \
             --exclude='cache/' \
+            --exclude='mu-plugins/' \
             --exclude='autoptimize/' \
             --exclude='.git' \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_PORT }} -o StrictHostKeyChecking=no" \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_LIVE_PORT }} -o StrictHostKeyChecking=no" \
             ./wp-content/ \
-            ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }}:/www/mytestsitem_146/public/wp-content/
+            ${{ secrets.KINSTA_LIVE_USER }}@${{ secrets.KINSTA_LIVE_HOST }}:/www/mytestsitem_146/public/wp-content/
 
-      # - name: Post-Deployment Commands (Activate Plugins & Clear Cache)
-      #   run: |
-      #     ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
-      #       cd /www/mytestsitem_146/public
-      #       wp plugin activate --all --quiet
-      #       wp cache flush
-      #     EOF
-      # - name: Post-Deployment Commands (Safety Mode)
-      #   run: |
-      #     ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
-      #       cd /www/mytestsitem_146/public
-
-      #       # 1. Flush cache while IGNORING the broken plugins
-      #       wp cache flush --skip-plugins --skip-themes
-
-      #       # 2. Deactivate the specific plugin causing the crash
-      #       wp plugin deactivate better-wp-security --skip-plugins --skip-themes
-
-      #       # 3. Now activate everything else
-      #       wp plugin activate --all --quiet
-
-      #       # 4. Final cache flush now that things are stable
-      #       wp cache flush
-      #     EOF
-      - name: Post-Deployment Commands (Safety Mode)
+      - name: Post-Deployment
         run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.KINSTA_STAGING_PORT }} -o StrictHostKeyChecking=no ${{ secrets.KINSTA_USER }}@${{ secrets.KINSTA_HOST }} << 'EOF'
-            cd /www/mytestsitem_146/public
-            
-            # 1. Flush cache while IGNORING the broken plugins to bypass the Fatal Error
-            wp cache flush --skip-plugins --skip-themes
-            
-            # 2. Deactivate the specific plugin causing the crash
-            wp plugin deactivate better-wp-security --skip-plugins --skip-themes
-            
-            # 3. Now activate everything else
-            wp plugin activate --all --quiet
-            
-            # 4. Final cache flush now that things are stable
-            wp cache flush
+          ssh -i ~/.ssh/deploy_key \
+            -p ${{ secrets.KINSTA_LIVE_PORT }} \
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.KINSTA_LIVE_USER }}@${{ secrets.KINSTA_LIVE_HOST }} << 'EOF'
+              cd /www/mytestsitem_146/public
+
+              # Clear all caches so the new theme/plugin code is served immediately
+              wp cache flush
+
           EOF

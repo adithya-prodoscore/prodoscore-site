@@ -1,5 +1,12 @@
+# ============================================================
+# WORDPRESS — KINSTA DEPLOYMENT
+# Strategy: Git tracks your custom theme only.
+# Plugins are managed directly on Kinsta, not through Git.
+# ============================================================
+
+
 # --- WORDPRESS CORE ---
-# We don't track core because Kinsta manages updates.
+# Kinsta manages core updates. We never touch these.
 wp-admin/
 wp-includes/
 wp-*.php
@@ -7,54 +14,86 @@ xmlrpc.php
 license.txt
 readme.html
 
-# --- WORDPRESS CORE ---
-# Ignore the index.php in the root folder
-/index.php
 
-# Ignore all other index.php files everywhere else by default
-**/index.php
+# --- SERVER CONFIG ---
+# These belong to Kinsta's server. Never overwrite them.
+nginx.conf
+.htaccess
 
-# --- THEMES ---
-# Now, EXCEPTION: Allow the index.php inside your specific theme
-!wp-content/themes/prodoscore_theme/index.php
 
 # --- CONFIG & SECRETS ---
-# Never track passwords.
+# Never commit credentials or environment-specific config.
 wp-config.php
 wp-config-sample.php
 .env
+.env.*
 
-# --- THE PLUGINS (CRITICAL CHANGE) ---
-# We REMOVE the ignore for plugins so they sync via Git.
-# However, we ignore specific heavy/junk plugin data.
-wp-content/plugins/akismet/
-wp-content/plugins/hello.php
 
-# --- UPLOADS & STATE (THE "DOWN" FLOW) ---
-# We never push these UP; we only pull them DOWN via DevKinsta.
+# --- PLUGINS ---
+# Plugins are installed and managed directly on Kinsta live/staging.
+# We do NOT track plugins in Git. See deploy.yml for reasoning.
+wp-content/plugins/
+
+# If your theme has a hard PHP dependency on a specific plugin,
+# unignore it here so it travels with your code:
+# !wp-content/plugins/advanced-custom-fields/
+# !wp-content/plugins/your-required-plugin/
+
+
+# --- MU-PLUGINS ---
+# Kinsta's internal system plugins. Never touch these.
+wp-content/mu-plugins/
+
+
+# --- UPLOADS & MEDIA ---
+# Client-owned content. Only flows DOWN via DevKinsta pull.
+# Never committed, never pushed.
 wp-content/uploads/
 wp-content/blogs.dir/
+
+
+# --- WORDPRESS STATE FILES ---
+# Generated or environment-specific. Not portable across environments.
 wp-content/upgrade/
 wp-content/backup-db/
 wp-content/advanced-cache.php
 wp-content/wp-cache-config.php
 
-# --- CACHE & PERFORMANCE ---
-# Don't track generated files from WP Super Cache or Autoptimize.
+
+# --- CACHE & GENERATED FILES ---
 wp-content/cache/
 wp-content/autoptimize/
 
-# --- THEMES ---
-# We track our custom theme, but we ignore the default WP themes.
-wp-content/themes/twentytwenty*/
-wp-content/themes/twentytwentyone/
-wp-content/themes/twentytwentytwo/
-wp-content/themes/twentytwentythree/
 
-# --- OS & TOOLS ---
+# --- LANGUAGES ---
+# Translation files are generated/updated by WordPress automatically.
+wp-content/languages/
+
+
+# --- THEMES ---
+# We track ONLY our custom theme.
+# All default WordPress themes are ignored.
+wp-content/themes/twenty*/
+
+
+# --- INDEX.PHP SAFETY FILES ---
+# WordPress places empty index.php files everywhere as a security measure.
+# We ignore them globally but keep the one inside our theme.
+**/index.php
+!wp-content/themes/prodoscore_theme/index.php
+
+
+# --- THEME BUILD ARTIFACTS ---
+# Scoped to your theme so other folders aren't affected.
+wp-content/themes/prodoscore_theme/node_modules/
+wp-content/themes/prodoscore_theme/dist/
+wp-content/themes/prodoscore_theme/.parcel-cache
+wp-content/themes/prodoscore_theme/npm-debug.log*
+
+
+# --- OS & EDITOR ---
 .DS_Store
 Thumbs.db
-node_modules/
-.parcel-cache
-dist/
-npm-debug.log*
+.vscode/
+.idea/
+*.log
