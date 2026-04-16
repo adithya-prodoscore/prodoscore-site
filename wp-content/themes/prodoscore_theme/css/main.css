@@ -727,3 +727,100 @@ ul.footer-columns-wrapper .sub-menu li a:hover {
 .activity-slider-section .metaslider .play-pause {
   display: none !important;
 }
+
+/* Search Hover Logic */
+.search-trigger-container {
+  position: relative;
+  padding: 10px 0; /* Creates a bridge so hover doesn't break */
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%; /* Appears directly below the navbar */
+  right: 0;
+  width: 300px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: none; /* Hidden by default */
+  z-index: 1050;
+}
+
+/* Show when hovering container */
+.search-trigger-container:hover .search-dropdown {
+  display: block;
+  animation: slideInDown 0.3s ease;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Search Hover Logic - Improved Stability */
+.search-trigger-container {
+  position: relative;
+  /* We add a little bottom padding to the icon area to act as a bridge */
+  padding-bottom: 20px;
+  margin-bottom: -20px;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 320px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 9999;
+}
+
+/* The "Invisible Bridge" */
+.search-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -20px; /* This covers the gap between icon and dropdown */
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+}
+
+/* Show when hovering the container */
+.search-trigger-container:hover .search-dropdown {
+  display: block;
+  animation: fadeInSlide 0.2s ease-out;
+}
+
+@keyframes fadeInSlide {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Style the internal search input to look better */
+.search-dropdown input[type="search"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
